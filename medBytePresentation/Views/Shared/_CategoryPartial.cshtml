@@ -1,0 +1,41 @@
+﻿@model IEnumerable<medBytePresentation.Models.ApiModels.CategoryViewModel>
+@{
+
+}
+@functions{
+    public string GetPadding(int level)
+    {
+        return (30 * level).ToString() + "px";
+    }
+    public string GetClass(int level)
+    {
+        return level !=0 ? "collapse" : "" ;
+    }
+}
+
+
+@foreach (var item in Model)
+{
+    bool hasChild = item.Categories != null && item.Categories.Any();
+
+    <li data-children="@item.ChildrenIds" data-self="@item.CategoryId" data-name="@item.CategoryName" style="padding-left:@GetPadding(item.Level)" data-toggle="collapse" data-target="#cat-menu-item-@item.CategoryId"  class="@GetClass(item.Level)"  id="cat-menu-item-@item.CategoryParentId">
+        <a style="display: ruby;" >
+            <div id="cat-@item.CategoryId">
+                <i class="fa fa-gift fa-lg"></i>
+            </div>
+            @item.CategoryName
+            @if (hasChild)
+            {<span class="arrow"></span>}
+        </a>
+    </li>
+
+    @if (hasChild)
+     {
+        @await Html.PartialAsync("_CategoryPartial", item.Categories)
+
+      }
+
+}
+
+
+

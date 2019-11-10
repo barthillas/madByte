@@ -1,0 +1,36 @@
+﻿
+@model medBytePresentation.Models.ApiModels.MetaData
+@{
+    ViewData["Title"] = "MedByte Silahlar";
+}
+
+    <div class="row"> 
+        <div class="nav-side-menu bg-dark ">
+            <div class="brand">Cephane</div>
+            <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+            <div class="menu-list">
+                <ul id="menu-content" class="menu-content collapse out">
+                    <li id="all-weapons">
+                        <a>   
+                            <i class="fa fa-dashboard fa-lg"></i> 
+                            Tüm Silahlar
+                        </a>
+                    </li>
+                    @await Html.PartialAsync("_CategoryPartial", Model.Categories)
+                </ul>
+            </div>
+        </div>
+        <!-- Page Content  -->
+        <div class="products">
+            <div id="cat-title" class="category-title">
+            <span>Tüm Silahlar</span>
+            </div>
+            <div class=" row">
+                @foreach (var item in Model.Products)
+                {
+                    @await Html.PartialAsync("_ProductBox",@item)
+                }
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,24 @@
+﻿@using medBytePresentation.Helpers
+@model medBytePresentation.Models.ApiModels.ProductViewModel
+
+
+
+
+<a class="category-id-@Model.ProductCategoryId productHide col-md-3" href="/@FriendlyUrlHelper.GetFriendlyTitle(Model.ProductName)/@Model.ProductId">
+    <div class="shake weapon-box">
+        <div class="weapon-image">
+            <img alt="Tec9" class="img-fluid lazy" src="@Model.ImageUrl" style="">
+        </div>
+        @if (Model.IsActive)
+        {
+            <div class="product-stock-box">Satışta</div>
+        }
+        else
+        {
+            <div class="product-stock-box">Satışa kapalı</div>
+        }
+        <div class="weapon-name">
+            <span>@Model.ProductName</span>
+        </div>
+    </div>
+</a>

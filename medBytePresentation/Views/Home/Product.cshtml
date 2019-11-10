@@ -1,0 +1,45 @@
+﻿
+@model medBytePresentation.Models.ApiModels.ProductViewModel
+@{
+    ViewData["Title"] = Model.ProductName + " | " + Model.CategoryName;
+
+}
+
+<div class="container-fluid">
+    <div class="content-wrapper">
+        <div class="item-container">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="product col-md-3 service-image-left">
+                        <center>
+                            <img id="item-display" class="shake" src=@Model.ImageUrl alt="">
+                        </center>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="product-title">@Model.ProductName</div>
+                    <div class="product-desc">@Model.Description</div>
+                    <div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+                    <hr>
+                    <div class="product-price">$ 1234.00</div>
+                    @if (Model.IsActive)
+                    {
+                        <div class="product-stock">Satışta</div>
+                    }
+                    else
+                    {
+                        <div class="product-stock">Satışa kapalı</div>
+                    }
+                    <hr>
+                    <div class="btn-group cart">
+                        <button type="button" class="btn btn-success">
+                            Sepete Ekle
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
