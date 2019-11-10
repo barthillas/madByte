@@ -38,7 +38,7 @@ namespace medByteApi
         {
             services.AddCors();
             services.AddControllers();
-            
+
             // ===== Add our DbContext ========
             services.AddDbContext<aspnetmedByteApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), opt => opt.UseRowNumberForPaging()));
             services.AddDbContext<ApplicationDbContext>();
@@ -111,6 +111,7 @@ namespace medByteApi
                             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                             {
                                 context.Response.Headers.Add("Token-Expired", "true");
+                                context.HttpContext.Session.Clear();
                             }
                             return Task.CompletedTask;
                         }
@@ -119,13 +120,13 @@ namespace medByteApi
 
             // ===== Add MVC ========
             services.AddMvc();
-            
+
             // configure DI for application services
             services.AddScoped<IDbService, DbService>();
             services.AddSingleton<IMailSender, MailService>();
             services.AddSingleton<ApplicationCacheManager>();
         }
- 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -136,24 +137,24 @@ namespace medByteApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
-   
+
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            
+
             app.UseSession();
-                        
-           
+
+
             app.UseAuthentication();
             app.UseAuthorization();
-        
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-                                 
+
         }
     }
 }

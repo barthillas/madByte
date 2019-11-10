@@ -1,6 +1,7 @@
 ﻿using medBytePresentation.Helpers;
 using medBytePresentation.Models;
 using medBytePresentation.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,8 +58,14 @@ namespace medBytePresentation.Controllers
 
             var sessionToken = HttpContext.Session.GetString("Token");
             var refreshToken = HttpContext.Session.GetString("RefreshToken");
-          
-            var httpResponse = await _medByteApiService.GetProuct(id, sessionToken, refreshToken, async token =>{
+            if (sessionToken == null)
+            {
+                await HttpContext.SignOutAsync();
+                HttpContext.Session.Clear();
+                return RedirectToAction("Index", "Home");
+            }
+
+            var httpResponse = await _medByteApiService.GetProuct(id, sessionToken, refreshToken, async token => {
                 HttpContext.Session.SetString("Token", token);
                 sessionToken = token;
             });
